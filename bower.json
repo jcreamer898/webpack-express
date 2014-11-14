@@ -1,0 +1,19 @@
+{
+  "name": "express-webpack",
+  "version": "0.1.90",
+  "authors": [
+    "Jonathan Creamer <matrixhasyou2k4@gmail.com>"
+  ],
+  "license": "MIT",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    
+  }
+}
