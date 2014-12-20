@@ -46,15 +46,55 @@
 
 	"use strict";
 
-	var Alert = __webpack_require__(1).default;
+	var Alert = __webpack_require__(1).default, Card = __webpack_require__(2).default, Handlebars = __webpack_require__(5), cardClasses = __webpack_require__(3), cardIcon = __webpack_require__(4), cardFooter = __webpack_require__(10);
+
+	Handlebars.registerHelper("cardClasses", cardClasses);
+	Handlebars.registerHelper("cardIcon", cardIcon);
+	Handlebars.registerPartial("cards/partials/card_footer", cardFooter);
 
 	var alertMe = document.querySelectorAll(".alert-me")[0];
 
-	var alert = new Alert(alertMe, "warning", "Watchu talkin bout wills... (client)");
+	if (alertMe) {
+	  new Alert({
+	    el: alertMe,
+	    type: "warning",
+	    message: "Watchu talkin bout wills... (client)"
+	  });
+	}
 
-	module.exports = {
-	  Alert: Alert
-	};
+	var card = document.querySelectorAll("lp-card");
+	var cardStubs = [{
+	  fixed: true,
+	  cardClasses: "foo bar",
+	  url: "/foo",
+	  linkData: "data-foo=\"bar\"",
+	  imageUrl: "http://images-resrc.staticlp.com/C=SQ/S=W192,U/C=W192,H185,X0,Y3/O=85/http://www.lonelyplanet.com/travel-blog/tip-article/wordpress_uploads/2012/06/6522619971_8f1f2f1d9b.jpg",
+	  title: "Bazinga",
+	  kind: "destination",
+	  contextText: "Clientside card!",
+	  description: "This card is rendered on the client!"
+	}, {
+	  fixed: true,
+	  cardClasses: "foo bar",
+	  cover: true,
+	  url: "/foo",
+	  linkData: "data-foo=\"bar\"",
+	  imageUrl: "http://images-resrc.staticlp.com/C=W398,H760,X73,Y0/S=W192,H380/O=85//media.lonelyplanet.com/a/g/hi/t/b430cf0aee8cd39748b32ceba5b7d173-best-places-to-stay-in-venice.jpg",
+	  title: "Bazinga",
+	  kind: "destination",
+	  contextText: "Clientside card!",
+	  description: "This card is rendered on the client!"
+	}];
+
+	if (card) {
+	  Array.prototype.forEach.call(card, function (c, i) {
+	    var data = cardStubs[i % 2];
+
+	    data.el = c;
+
+	    new Card(data);
+	  });
+	}
 
 /***/ },
 /* 1 */
@@ -67,19 +107,36 @@
 	  if (instanceProps) Object.defineProperties(child.prototype, instanceProps);
 	};
 
-	var html = __webpack_require__(4);
-	var css = __webpack_require__(2);
-	var handlebars = __webpack_require__(3);
+	var _extends = function (child, parent) {
+	  child.prototype = Object.create(parent.prototype, {
+	    constructor: {
+	      value: child,
+	      enumerable: false,
+	      writable: true,
+	      configurable: true
+	    }
+	  });
+	  child.__proto__ = parent;
+	};
 
-	var Alert = (function () {
-	  var Alert = function Alert(el, type, message) {
-	    this.el = el;
-	    this.type = type;
-	    this.message = message;
-	    this.template = handlebars.compile(html);
+	"use strict";
 
-	    this.render();
+	var Base = __webpack_require__(7).default;
+
+
+	var html = __webpack_require__(8);
+
+	__webpack_require__(6);
+
+	var Alert = (function (Base) {
+	  var Alert = function Alert(options) {
+	    this.type = options.type;
+	    this.message = options.message;
+
+	    Base.call(this, options.el, html);
 	  };
+
+	  _extends(Alert, Base);
 
 	  _classProps(Alert, null, {
 	    render: {
@@ -94,7 +151,7 @@
 	  });
 
 	  return Alert;
-	})();
+	})(Base);
 
 	exports.default = Alert;
 
@@ -102,10 +159,83 @@
 /* 2 */
 /***/ function(module, exports, __webpack_require__) {
 
+	"use strict";
 
+	var _classProps = function (child, staticProps, instanceProps) {
+	  if (staticProps) Object.defineProperties(child, staticProps);
+	  if (instanceProps) Object.defineProperties(child.prototype, instanceProps);
+	};
+
+	var _extends = function (child, parent) {
+	  child.prototype = Object.create(parent.prototype, {
+	    constructor: {
+	      value: child,
+	      enumerable: false,
+	      writable: true,
+	      configurable: true
+	    }
+	  });
+	  child.__proto__ = parent;
+	};
+
+	"use strict";
+
+	var Base = __webpack_require__(7).default;
+
+
+	var html = __webpack_require__(9);
+
+	var Card = (function (Base) {
+	  var Card = function Card(options) {
+	    this.options = options;
+
+	    Base.call(this, options.el, html);
+	  };
+
+	  _extends(Card, Base);
+
+	  _classProps(Card, null, {
+	    render: {
+	      writable: true,
+	      value: function () {
+	        this.el.innerHTML = this.template(this.options);
+	      }
+	    }
+	  });
+
+	  return Card;
+	})(Base);
+
+	exports.default = Card;
 
 /***/ },
 /* 3 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+
+	module.exports = function (properties) {
+	  var classes = ["card", "js-card", "card--" + (properties.short ? "short" : "tall"), "card--" + (properties.fixed ? "fixed" : "flexible"), "card--" + (properties.cover ? "cover" : "standard"), "card--" + (properties.double ? "double" : "single"), "card--" + (properties.stubby ? "stubby" : "control"), "card--" + (properties.imageUrl ? "has-img" : "no-img"), "card--" + (properties.priceTag ? "has-price" : "no-price"), "card--" + (properties.authorName || properties.contextLocale || (properties.tags && properties.tags.lpReviewed) ? "has-footer" : "no-footer")];
+
+	  if (properties.kind) {
+	    classes.push("card--" + properties.kind);
+	  }
+
+	  return classes.join(" ");
+	};
+
+/***/ },
+/* 4 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+
+	module.exports = function (kind) {
+	  return kind === "need-to-know" ? "information" : kind;
+	};
+
+/***/ },
+/* 5 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;"use strict";
@@ -3128,10 +3258,70 @@
 	}));
 
 /***/ },
-/* 4 */
+/* 6 */
+/***/ function(module, exports, __webpack_require__) {
+
+
+
+/***/ },
+/* 7 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+
+	var _classProps = function (child, staticProps, instanceProps) {
+	  if (staticProps) Object.defineProperties(child, staticProps);
+	  if (instanceProps) Object.defineProperties(child.prototype, instanceProps);
+	};
+
+	"use strict";
+
+	var handlebars = __webpack_require__(5);
+
+	var Base = (function () {
+	  var Base = function Base(el, html) {
+	    this.el = el;
+	    this.html = html;
+
+	    this.compile();
+	    this.render();
+	  };
+
+	  _classProps(Base, null, {
+	    render: {
+	      writable: true,
+	      value: function () {}
+	    },
+	    compile: {
+	      writable: true,
+	      value: function () {
+	        this.template = handlebars.compile(this.html);
+	      }
+	    }
+	  });
+
+	  return Base;
+	})();
+
+	exports.default = Base;
+
+/***/ },
+/* 8 */
 /***/ function(module, exports, __webpack_require__) {
 
 	module.exports = "<div class=\"alert {{type}}\">{{message}}</div>";
+
+/***/ },
+/* 9 */
+/***/ function(module, exports, __webpack_require__) {
+
+	module.exports = "<article class=\"{{cardClasses this}}\">\n  <div class=\"card__mask\">\n    {{#if url}}\n      <a href=\"{{url}}\" {{linkData}} {{#if layer}}class=\"js-lightbox-toggle\"{{/if}}>\n        {{#if imageUrl}}\n          <figure class=\"card__figure\">\n            <img src=\"{{imageUrl}}\" class=\"card__figure__img\" alt=\"{{imageAlt}}\">\n\n            {{#if imageIcon}}\n              <div class=\"card__figure__icon icon-{{imageIcon}}\"></div>\n            {{/if}}\n          </figure>\n        {{/if}}\n\n        <div class=\"card__content\">\n          {{#if contextPin}}\n            <div class=\"card__content__pin icon--{{cardIcon kind}}--pin\"></div>\n          {{/if}}\n          {{#if tags.top_choice}}\n            <div class=\"card__content__ribbon icon--top-pick\">\n              <div class=\"accessibility\">\n                Top Pick\n              </div>\n            </div>\n          {{/if}}\n          {{#if contextText}}\n            <div class=\"card__content__context {{contextIcon}} icon--{{cardIcon kind}}--before\">\n              {{contextText}}\n            </div>\n          {{/if}}\n  \n          <h1 class=\"card__content__title js-prerender-title\">\n            {{title}}\n          </h1>\n          <div class=\"card__content__desc\">\n            {{#if htmlContent}}\n              {{{htmlContent}}}\n            {{/if}}\n            {{#if description}}\n              <p>\n                {{description}}\n              </p>\n            {{/if}}\n          </div>\n          {{#if longDescription}}\n            <div class=\"js-prerender-content is-hidden\">\n              {{longDescription}}\n            </div>\n          {{/if}}\n        </div>\n\n        {{> cards/partials/card_footer }}\n      </a>\n    {{/if}}\n  </div>\n</article>\n\n<!-- %article{ class: card_classes(properties).join(\" \") }\n  .card__mask\n\n    - card_link_if(properties[:url].present?, href: properties[:url], data: card_link_data(properties), class: properties[:layer?] ? 'js-lightbox-toggle' : '') do\n\n      - if properties[:image_url].present?\n        %figure.card__figure\n          = safe_image_tag(properties[:image_url], class: \"card__figure__img\", alt: properties[:image_alt])\n\n          - if properties[:image_icon].present?\n            .card__figure__icon{ class: \"icon--#{properties[:image_icon]}\" }\n\n      .card__content\n\n        - if properties[:context_pin]\n          .card__content__pin{ class: \"icon--#{card_icon(properties)}--pin\" }\n\n        - if properties[:tags] && properties[:tags][:top_choice?]\n          .card__content__ribbon.icon--top-pick\n            .accessibility Top Pick\n\n        - if properties[:context_text]\n          .card__content__context{ class: properties[:context_icon] ? \"copy--icon--before icon--#{card_icon(properties)}--before\" : \"\" }\n            = properties[:context_text]\n\n        %h1.card__content__title.js-prerender-title\n          = properties[:title]\n\n        .card__content__desc\n          - if properties[:html_content]\n            != properties[:html_content]\n          - elsif properties[:description]\n            %p\n              = properties[:description]\n\n        - if properties[:long_description]\n          .js-prerender-content.is-hidden\n            = properties[:long_description]\n\n      = render partial: \"/components/cards/partials/footer\", locals: { properties: properties }\n\n  - if properties[:price_tag].present?\n    = ui_component(\"price_label\", properties: properties[:price_tag])\n -->";
+
+/***/ },
+/* 10 */
+/***/ function(module, exports, __webpack_require__) {
+
+	module.exports = "<div class=\"card__footer\">\n  \n</div>";
 
 /***/ }
 /******/ ])

@@ -1,34 +1,17 @@
+"use strict";
+
+import Base from "components/base";
+
 var html = require("components/alert.html");
-var css = require("./alert.scss");
-var handlebars = require("handlebars/dist/handlebars");
 
-// function Alert(el, type, message) {
-//   this.el = el;
-//   this.type = type;
-//   this.message = message;
-//   this.template = handlebars.compile(html);
+require("./alert.scss");
 
-//   this.render();
-// }
+class Alert extends Base {
+  constructor(options) {
+    this.type = options.type;
+    this.message = options.message;
 
-// Alert.prototype.render = function() {
-//   this.el.innerHTML = this.template({
-//     type: this.type,
-//     message: this.message
-//   });
-// };
-
-// module.exports = Alert;
-
-
-class Alert {
-  constructor(el, type, message) {
-    this.el = el;
-    this.type = type;
-    this.message = message;
-    this.template = handlebars.compile(html);
-
-    this.render();
+    super(options.el, html);
   }
 
   render() {
@@ -39,4 +22,4 @@ class Alert {
   }
 }
 
-export default Alert
+export default Alert;

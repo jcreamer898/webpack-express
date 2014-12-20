@@ -19,7 +19,8 @@ module.exports = {
         extensions: ['', '.js', '.json', '.coffee'],
         root: [
             path.join(__dirname, "public", "javascripts"), 
-            path.join(__dirname, "templates")
+            path.join(__dirname, "templates"),
+            path.join(__dirname, "helpers")
         ],
         modulesDirectories: ["node_modules"]
     }
