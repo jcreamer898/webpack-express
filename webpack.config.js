@@ -1,4 +1,5 @@
 var path = require("path");
+var rizzo = require("rizzo-assets");
 
 module.exports = {
     context: path.join(__dirname, "public", "javascripts"),
@@ -19,7 +20,7 @@ module.exports = {
         extensions: ['', '.js', '.json', '.coffee'],
         root: [
             path.join(__dirname, "public", "javascripts"), 
-            path.join(__dirname, "templates"),
+            path.join(__dirname, rizzo.templatesDirectory()),
             path.join(__dirname, "helpers")
         ],
         modulesDirectories: ["node_modules"]

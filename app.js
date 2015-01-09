@@ -27,7 +27,7 @@ handlebars = exphbr.create({
     partialsDir: [
         "views/shared/",
         "views/partials/",
-        "templates/components"
+        rizzo.templatesDirectory() + "/components"
     ]
 });
 

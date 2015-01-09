@@ -3,12 +3,12 @@
 var Alert = require("./components/alert/alert.js").default,
     Card = require("./components/card/card.js").default,
     Handlebars = require("handlebars/dist/handlebars"),
-    cardClasses = require("components/cards/cardClasses"),
-    cardIcon = require("components/cards/cardIcon"),
     cardFooter = require("components/cards/partials/card_footer.html");
 
-Handlebars.registerHelper("cardClasses", cardClasses);
-Handlebars.registerHelper("cardIcon", cardIcon);
+var rizzo = require("rizzo-assets");
+
+Handlebars.registerHelper("cardClasses", rizzo.helpers().cardClasses);
+Handlebars.registerHelper("cardIcon", rizzo.helpers().cardIcon);
 Handlebars.registerPartial("cards/partials/card_footer", cardFooter);
 
 var alertMe = document.querySelectorAll(".alert-me")[0];

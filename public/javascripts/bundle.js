@@ -46,10 +46,12 @@
 
 	"use strict";
 
-	var Alert = __webpack_require__(1).default, Card = __webpack_require__(2).default, Handlebars = __webpack_require__(5), cardClasses = __webpack_require__(3), cardIcon = __webpack_require__(4), cardFooter = __webpack_require__(10);
+	var Alert = __webpack_require__(1)["default"], Card = __webpack_require__(2)["default"], Handlebars = __webpack_require__(3), cardFooter = __webpack_require__(7);
 
-	Handlebars.registerHelper("cardClasses", cardClasses);
-	Handlebars.registerHelper("cardIcon", cardIcon);
+	var rizzo = __webpack_require__(4);
+
+	Handlebars.registerHelper("cardClasses", rizzo.helpers().cardClasses);
+	Handlebars.registerHelper("cardIcon", rizzo.helpers().cardIcon);
 	Handlebars.registerPartial("cards/partials/card_footer", cardFooter);
 
 	var alertMe = document.querySelectorAll(".alert-me")[0];
@@ -102,11 +104,6 @@
 
 	"use strict";
 
-	var _classProps = function (child, staticProps, instanceProps) {
-	  if (staticProps) Object.defineProperties(child, staticProps);
-	  if (instanceProps) Object.defineProperties(child.prototype, instanceProps);
-	};
-
 	var _extends = function (child, parent) {
 	  child.prototype = Object.create(parent.prototype, {
 	    constructor: {
@@ -121,12 +118,12 @@
 
 	"use strict";
 
-	var Base = __webpack_require__(7).default;
+	var Base = __webpack_require__(6)["default"];
 
 
 	var html = __webpack_require__(8);
 
-	__webpack_require__(6);
+	__webpack_require__(5);
 
 	var Alert = (function (Base) {
 	  var Alert = function Alert(options) {
@@ -138,33 +135,23 @@
 
 	  _extends(Alert, Base);
 
-	  _classProps(Alert, null, {
-	    render: {
-	      writable: true,
-	      value: function () {
-	        this.el.innerHTML = this.template({
-	          type: this.type,
-	          message: this.message
-	        });
-	      }
-	    }
-	  });
+	  Alert.prototype.render = function () {
+	    this.el.innerHTML = this.template({
+	      type: this.type,
+	      message: this.message
+	    });
+	  };
 
 	  return Alert;
 	})(Base);
 
-	exports.default = Alert;
+	exports["default"] = Alert;
 
 /***/ },
 /* 2 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
-
-	var _classProps = function (child, staticProps, instanceProps) {
-	  if (staticProps) Object.defineProperties(child, staticProps);
-	  if (instanceProps) Object.defineProperties(child.prototype, instanceProps);
-	};
 
 	var _extends = function (child, parent) {
 	  child.prototype = Object.create(parent.prototype, {
@@ -180,7 +167,7 @@
 
 	"use strict";
 
-	var Base = __webpack_require__(7).default;
+	var Base = __webpack_require__(6)["default"];
 
 
 	var html = __webpack_require__(9);
@@ -194,48 +181,17 @@
 
 	  _extends(Card, Base);
 
-	  _classProps(Card, null, {
-	    render: {
-	      writable: true,
-	      value: function () {
-	        this.el.innerHTML = this.template(this.options);
-	      }
-	    }
-	  });
+	  Card.prototype.render = function () {
+	    this.el.innerHTML = this.template(this.options);
+	  };
 
 	  return Card;
 	})(Base);
 
-	exports.default = Card;
+	exports["default"] = Card;
 
 /***/ },
 /* 3 */
-/***/ function(module, exports, __webpack_require__) {
-
-	"use strict";
-
-	module.exports = function (properties) {
-	  var classes = ["card", "js-card", "card--" + (properties.short ? "short" : "tall"), "card--" + (properties.fixed ? "fixed" : "flexible"), "card--" + (properties.cover ? "cover" : "standard"), "card--" + (properties.double ? "double" : "single"), "card--" + (properties.stubby ? "stubby" : "control"), "card--" + (properties.imageUrl ? "has-img" : "no-img"), "card--" + (properties.priceTag ? "has-price" : "no-price"), "card--" + (properties.authorName || properties.contextLocale || (properties.tags && properties.tags.lpReviewed) ? "has-footer" : "no-footer")];
-
-	  if (properties.kind) {
-	    classes.push("card--" + properties.kind);
-	  }
-
-	  return classes.join(" ");
-	};
-
-/***/ },
-/* 4 */
-/***/ function(module, exports, __webpack_require__) {
-
-	"use strict";
-
-	module.exports = function (kind) {
-	  return kind === "need-to-know" ? "information" : kind;
-	};
-
-/***/ },
-/* 5 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;"use strict";
@@ -1880,9 +1836,9 @@
 	          helperMissing: true,
 	          blockHelperMissing: true,
 	          each: true,
-	          if: true,
+	          "if": true,
 	          unless: true,
-	          with: true,
+	          "with": true,
 	          log: true,
 	          lookup: true
 	        };
@@ -3258,25 +3214,28 @@
 	}));
 
 /***/ },
-/* 6 */
+/* 4 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+
+	var Rizzo = __webpack_require__(10);
+
+	module.exports = new Rizzo();
+
+/***/ },
+/* 5 */
 /***/ function(module, exports, __webpack_require__) {
 
 
 
 /***/ },
-/* 7 */
+/* 6 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
 
-	var _classProps = function (child, staticProps, instanceProps) {
-	  if (staticProps) Object.defineProperties(child, staticProps);
-	  if (instanceProps) Object.defineProperties(child.prototype, instanceProps);
-	};
-
-	"use strict";
-
-	var handlebars = __webpack_require__(5);
+	var handlebars = __webpack_require__(3);
 
 	var Base = (function () {
 	  var Base = function Base(el, html) {
@@ -3287,23 +3246,22 @@
 	    this.render();
 	  };
 
-	  _classProps(Base, null, {
-	    render: {
-	      writable: true,
-	      value: function () {}
-	    },
-	    compile: {
-	      writable: true,
-	      value: function () {
-	        this.template = handlebars.compile(this.html);
-	      }
-	    }
-	  });
+	  Base.prototype.render = function () {};
+
+	  Base.prototype.compile = function () {
+	    this.template = handlebars.compile(this.html);
+	  };
 
 	  return Base;
 	})();
 
-	exports.default = Base;
+	exports["default"] = Base;
+
+/***/ },
+/* 7 */
+/***/ function(module, exports, __webpack_require__) {
+
+	module.exports = "<div class=\"card__footer\">\n  \n</div>";
 
 /***/ },
 /* 8 */
@@ -3321,7 +3279,66 @@
 /* 10 */
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = "<div class=\"card__footer\">\n  \n</div>";
+	"use strict";
+
+	var helpers = __webpack_require__(11);
+
+	function Rizzo() {}
+
+	Rizzo.prototype.helpers = function () {
+	  return helpers;
+	};
+
+	Rizzo.prototype.templatesDirectory = function () {
+	  return "node_modules/rizzo-assets/templates/";
+	};
+
+
+	module.exports = Rizzo;
+
+/***/ },
+/* 11 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+
+	var cardClasses = __webpack_require__(12);
+	var cardIcon = __webpack_require__(13);
+
+	module.exports = {
+	  cardClasses: cardClasses,
+	  cardIcon: cardIcon
+	};
+
+/***/ },
+/* 12 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+
+	function cardClasses(properties) {
+	  var classes = ["card", "js-card", "card--" + (properties.short ? "short" : "tall"), "card--" + (properties.fixed ? "fixed" : "flexible"), "card--" + (properties.cover ? "cover" : "standard"), "card--" + (properties.double ? "double" : "single"), "card--" + (properties.stubby ? "stubby" : "control"), "card--" + (properties.imageUrl ? "has-img" : "no-img"), "card--" + (properties.priceTag ? "has-price" : "no-price"), "card--" + (properties.authorName || properties.contextLocale || (properties.tags && properties.tags.lpReviewed) ? "has-footer" : "no-footer")];
+
+	  if (properties.kind) {
+	    classes.push("card--" + properties.kind);
+	  }
+
+	  return classes.join(" ");
+	}
+
+	module.exports = cardClasses;
+
+/***/ },
+/* 13 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+
+	function cardIcon(kind) {
+	  return kind === "need-to-know" ? "information" : kind;
+	}
+
+	module.exports = cardIcon;
 
 /***/ }
 /******/ ])
